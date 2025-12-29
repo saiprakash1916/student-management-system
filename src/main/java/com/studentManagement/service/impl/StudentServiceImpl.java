@@ -2,18 +2,58 @@ package com.studentManagement.service.impl;
 
 import com.studentManagement.dto.StudentRequestDTO;
 import com.studentManagement.entity.Student;
+import com.studentManagement.exception.StudentNotFoundException;
+import com.studentManagement.repository.StudentRepository;
+import com.studentManagement.service.StudentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface StudentServiceImpl {
+@Service
+public class StudentServiceImpl implements StudentService {
 
-    Student createStudent(StudentRequestDTO studentRequestDTO);
+    private final StudentRepository studentRepository;
 
-    Student getStudentById(Long id);
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
-    List<Student> getAllStudent();
+    @Override
+    public Student createStudent(StudentRequestDTO studentRequestDTO) {
+        Student student = new Student(
+                studentRequestDTO.getName(),
+                studentRequestDTO.getEmail(),
+                studentRequestDTO.getAge(),
+                studentRequestDTO.getDepartment()
+        );
+        return studentRepository.save(student);
+    }
 
-    Student updateStudent(Long id, StudentRequestDTO studentRequestDTO);
+    @Override
+    public Student getStudentById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student not found with id " + id));
+    }
 
-    Student deleteStudent(Long id);
+    @Override
+    public List<Student> getAllStudent() {
+        return studentRepository.findAll();
+    }
+
+    @Override
+    public Student updateStudent(Long id, StudentRequestDTO studentRequestDTO) {
+        Student student = getStudentById(id);
+
+        student.setName(studentRequestDTO.getName());
+        student.setEmail(studentRequestDTO.getEmail());
+        student.setAge(studentRequestDTO.getAge());
+        student.setDepartment(studentRequestDTO.getDepartment());
+
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public void deleteStudent(Long id) {
+        Student student = getStudentById(id);
+        studentRepository.delete(student);
+    }
 }

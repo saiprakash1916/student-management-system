@@ -2,43 +2,19 @@ package com.studentManagement.service;
 
 import com.studentManagement.dto.StudentRequestDTO;
 import com.studentManagement.entity.Student;
-import com.studentManagement.repository.StudentRepository;
-import com.studentManagement.service.impl.StudentServiceImpl;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class StudentService implements StudentServiceImpl {
+public interface StudentService {
 
-    private final StudentRepository studentRepository;
+    Student createStudent(StudentRequestDTO studentRequestDTO);
 
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
+    Student getStudentById(Long id);
 
-    @Override
-    public Student createStudent(StudentRequestDTO studentRequestDTO) {
-        return null;
-    }
+    List<Student> getAllStudent();
 
-    @Override
-    public Student getStudentById(Long id) {
-        return null;
-    }
+    Student updateStudent(Long id, StudentRequestDTO studentRequestDTO);
 
-    @Override
-    public List<Student> getAllStudent() {
-        return List.of();
-    }
+    void deleteStudent(Long id);
 
-    @Override
-    public Student updateStudent(Long id, StudentRequestDTO studentRequestDTO) {
-        return null;
-    }
-
-    @Override
-    public Student deleteStudent(Long id) {
-        return null;
-    }
 }
