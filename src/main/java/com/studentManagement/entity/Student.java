@@ -22,10 +22,6 @@ public class Student {
         return Id;
     }
 
-    public void setId(long id) {
-        Id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -63,8 +59,7 @@ public class Student {
 
     }
 
-    public Student(long id, String name, String email, int age, String department) {
-        Id = id;
+    public Student(String name, String email, int age, String department) {
         this.name = name;
         this.email = email;
         this.age = age;
